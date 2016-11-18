@@ -1,4 +1,4 @@
-package site.blmdz;
+package site.blmdz.controller;
 
 import java.util.Map;
 
@@ -14,9 +14,11 @@ public class TestController {
 	@Value("${application.hello}")
 	private String value;
 	
-	@RequestMapping("/hi")
+	@RequestMapping(value = {"/hi", "/"})
 	public String helloTest(Map<String, Object> context) {
 		context.put("hello", value);
+		String[] a = {""};
+		System.out.println(a[3]);
 		return ViewsConstant.JSP_001;
 	}
 }

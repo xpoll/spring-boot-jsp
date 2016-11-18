@@ -4,13 +4,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
-<script type="text/javascript" src="js/hello.js"></script>
-<link rel="stylesheet" type="text/css" href="css/hello.css">
+<script type="text/javascript" src="/resources/js/hello.js"></script>
+<link rel="stylesheet" type="text/css" href="/resources/css/hello.css">
 </head>
 <body>
 hello,lm  
 <br>
 <div>${hello}</div>
-<img alt="image" src="image/mysql-oracle.png">
+<img alt="image" src="/resources/image/mysql-oracle.png">
 </body>
 </html>
