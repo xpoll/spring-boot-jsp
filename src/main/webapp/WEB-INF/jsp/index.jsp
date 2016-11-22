@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,7 +7,19 @@
 <title>index</title>
 </head>
 <body>
-<h3>hello</h3>
-
+	<h3>hello</h3>
+	<shiro:principal />
+	<shiro:hasRole name="admin">
+		我有角色admin
+	</shiro:hasRole>
+	<shiro:hasRole name="normal">
+		我有角色normal
+	</shiro:hasRole>
+	<shiro:hasPermission name="admin_permissions">
+		我有权限admin_permissions
+	</shiro:hasPermission>
+	<shiro:hasPermission name="normal_permissions">
+		我有权限normal_permissions
+	</shiro:hasPermission>
 </body>
 </html>

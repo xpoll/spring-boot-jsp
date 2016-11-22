@@ -15,7 +15,7 @@ import com.google.common.collect.Sets;
 
 public class JspRealm extends AuthorizingRealm {
 
-	//授权
+	//授权验证
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection paramPrincipalCollection) {
 		String username = (String) paramPrincipalCollection.getPrimaryPrincipal();
@@ -31,6 +31,7 @@ public class JspRealm extends AuthorizingRealm {
 		}
 		info.setRoles(roles);
 		info.setStringPermissions(permissions);
+		System.out.println("-----------------------授权验证");
 		return info;
 	}
 
@@ -42,6 +43,7 @@ public class JspRealm extends AuthorizingRealm {
 		if ("admin".equals(username)
 				&& "normal".equals(username))
 			return null;
+		System.out.println("-----------------------登陆验证");
 		return new SimpleAuthenticationInfo(username, "111", username);
 	}
 

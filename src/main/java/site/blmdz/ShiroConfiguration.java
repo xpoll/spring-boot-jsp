@@ -20,19 +20,19 @@ public class ShiroConfiguration {
 	
 	private static Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();  
 	  
-    @Bean(name = "ShiroRealmImpl")  
+    @Bean
     public JspRealm getShiroRealm() {  
         return new JspRealm();
     }  
   
-    @Bean(name = "shiroEhcacheManager")  
+    @Bean
     public EhCacheManager getEhCacheManager() {  
         EhCacheManager em = new EhCacheManager();  
         em.setCacheManagerConfigFile("classpath:ehcache-shiro.xml");  
         return em;  
     }  
   
-    @Bean(name = "lifecycleBeanPostProcessor")  
+    @Bean
     public LifecycleBeanPostProcessor getLifecycleBeanPostProcessor() {  
         return new LifecycleBeanPostProcessor();  
     }  
@@ -44,7 +44,7 @@ public class ShiroConfiguration {
         return daap;  
     }  
   
-    @Bean(name = "securityManager")  
+    @Bean
     public DefaultWebSecurityManager getDefaultWebSecurityManager() {  
         DefaultWebSecurityManager dwsm = new DefaultWebSecurityManager();  
         dwsm.setRealm(getShiroRealm());  
@@ -59,14 +59,19 @@ public class ShiroConfiguration {
         return new AuthorizationAttributeSourceAdvisor();  
     }  
   
-    @Bean(name = "shiroFilter")  
+    @Bean
     public ShiroFilterFactoryBean getShiroFilterFactoryBean() {  
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();  
         shiroFilterFactoryBean.setSecurityManager(getDefaultWebSecurityManager());  
         shiroFilterFactoryBean.setLoginUrl("/login");  
-        shiroFilterFactoryBean.setSuccessUrl("/sa/index");  
-        filterChainDefinitionMap.put("/sa/**", "authc");  
-        filterChainDefinitionMap.put("/**", "anon");  
+        shiroFilterFactoryBean.setSuccessUrl("/sa/index");
+//        shiroFilterFactoryBean.setUnauthorizedUrl("");
+        filterChainDefinitionMap.put("/index", "authc");  
+        filterChainDefinitionMap.put("/admin", "authc, roles[admin]");
+        filterChainDefinitionMap.put("/normal", "authc, roles[normal]");
+        filterChainDefinitionMap.put("/admins", "authc, roles[admin], perms[admin_permissions]");
+        filterChainDefinitionMap.put("/normals", "authc, roles[normal], perms[normal_permissions]");
+        filterChainDefinitionMap.put("/**", "anon");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);  
         return shiroFilterFactoryBean;  
     } 

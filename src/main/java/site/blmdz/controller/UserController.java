@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping(value="/api/user")
 public class UserController {
 
-	@RequestMapping(value = "login", method = RequestMethod.POST, produces = MediaType.TEXT_HTML_VALUE)
+	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public String login(HttpServletRequest request,
 			Model model,
 			@RequestParam("username") String username,
@@ -33,6 +32,12 @@ public class UserController {
 			request.setAttribute("errorMsg", "用户名或密码错误！");
 			return "login";
 		}
+	}
+	@RequestMapping(value = "loginout", method = RequestMethod.GET)
+	public String loginout() {
+		Subject subject=SecurityUtils.getSubject();
+		subject.logout();
+		return "login";
 	}
 	
 }
