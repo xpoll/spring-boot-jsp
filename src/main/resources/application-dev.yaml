@@ -23,6 +23,4 @@ server:
 ###################################################
 ### other set
 ###################################################
-application:
-  hello: Hello Angel From application
 
