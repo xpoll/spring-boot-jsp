@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.google.common.base.Strings;
+
 import site.blmdz.enums.ErrorEnums;
 
 @Controller
@@ -25,23 +27,27 @@ public class UserController {
 	public String login(HttpServletRequest request,
 			Model model,
 			@RequestParam("username") String username,
-			@RequestParam("password") String password) {
+			@RequestParam("password") String password,
+			@RequestParam("code") String code) throws Exception {
+		if (Strings.isNullOrEmpty(code)
+				|| !code.equals(request.getSession().getAttribute("captchaToken")))
+			throw new Exception(ErrorEnums.ERROR_001001.desc());
 		Subject subject=SecurityUtils.getSubject();
 		UsernamePasswordToken token=new UsernamePasswordToken(username, password);
 		try{
 			subject.login(token);
 			return "redirect:/index";
 		}catch(UnknownAccountException e){
-			request.setAttribute("msg", ErrorEnums.ERROR_00004.desc());
+			request.setAttribute("msg", ErrorEnums.ERROR_000004.desc());
 		}catch(LockedAccountException e){
-			request.setAttribute("msg", ErrorEnums.ERROR_00005.desc());
+			request.setAttribute("msg", ErrorEnums.ERROR_000005.desc());
 		}catch(DisabledAccountException e){
-			request.setAttribute("msg", ErrorEnums.ERROR_00006.desc());
+			request.setAttribute("msg", ErrorEnums.ERROR_000006.desc());
 		}catch(IncorrectCredentialsException e){
-			request.setAttribute("msg", ErrorEnums.ERROR_00007.desc());
+			request.setAttribute("msg", ErrorEnums.ERROR_000007.desc());
 		}catch(Exception e){
 			e.printStackTrace();
-			request.setAttribute("msg", ErrorEnums.ERROR_00888.desc());
+			request.setAttribute("msg", ErrorEnums.ERROR_000888.desc());
 		}
 		request.setAttribute("username", username);
 		request.setAttribute("password", password);
