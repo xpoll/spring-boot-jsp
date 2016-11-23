@@ -5,6 +5,8 @@ import java.util.Set;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.DisabledAccountException;
+import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -37,12 +39,18 @@ public class JspRealm extends AuthorizingRealm {
 
 	//登录验证
 	@Override
-	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken paramAuthenticationToken)
-			throws AuthenticationException {
+	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken paramAuthenticationToken) throws AuthenticationException {
 		String username = (String) paramAuthenticationToken.getPrincipal();
-		if ("admin".equals(username)
-				&& "normal".equals(username))
+		//账号是否存在、账户是否冻结等 抛异常处理
+		if (!"admin".equals(username)
+				&& !"normal".equals(username)
+				&& !"locked".equals(username)
+				&& !"disable".equals(username))
 			return null;
+		if ("locked".equals(username))
+			throw new LockedAccountException();
+		if ("disable".equals(username))
+			throw new DisabledAccountException();
 		System.out.println("-----------------------登陆验证");
 		return new SimpleAuthenticationInfo(username, "111", username);
 	}

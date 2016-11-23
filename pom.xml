@@ -16,6 +16,7 @@
 	</properties>
 	
 	<dependencies>
+		<!-- spring-boot -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -31,6 +32,7 @@
 			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		<!-- jstl -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
@@ -63,6 +65,13 @@
 		    <artifactId>shiro-ehcache</artifactId>
 		    <version>${shiro.version}</version>
 		</dependency>
+		<!-- lombok -->
+		<dependency>
+		    <groupId>org.projectlombok</groupId>
+		    <artifactId>lombok</artifactId>
+		    <version>1.16.10</version>
+		</dependency>
+				
 	</dependencies>
 	
 	<build>
