@@ -92,6 +92,8 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/normals", "authc, roles[normal], perms[normal_permissions]");
         filterChainDefinitionMap.put("/**", "anon");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);  
+        
+//        Auths a = new Yaml().loadAs(new FileInputStream(new File(Resources.getResource("auth.yaml").getFile())), Auths.class);
         return shiroFilterFactoryBean;  
     } 
 }

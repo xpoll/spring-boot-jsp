@@ -1,0 +1,66 @@
+#shiro 默认权限
+auths:
+  authc: #登录
+    requests:
+      - /index
+      - /test
+  anon: #所有
+    requests:
+      - /**
+#通过角色控制权限
+roles:
+  admin:
+    requests:
+      - /admin
+    resources:
+      - admin_one
+      - admin_one_one
+      - admin_two
+      - admin_two_two
+  normal:
+    requests:
+      - /normal
+    resources:
+      - normal_one
+      - normal_one_one
+      - normal_two
+      - normal_two_two
+#该角色拥有的权限树
+tree:
+  admin:
+    admin_one:
+      name: 管理员菜单栏A
+      resources: /admin/one
+      children:
+        admin_one_one:
+          name: 管理员菜单栏A_A
+          resources: /admin/one/one
+    admin_two:
+      name: 管理员菜单栏B
+      resources: /admin/two
+      children:
+        admin_two_two:
+          name: 管理员菜单栏B_B
+          resources: /admin/two/two
+          children:
+            admin_two_two_two:
+              name: 管理员菜单栏B_B_B
+              resources: /admin/two/two/two
+  normal:
+    normal_one:
+      name: 普通菜单栏A
+      resources: /admin/one
+      children:
+        admin_one_one:
+          name: 普通菜单栏A_A
+          resources: /admin/one/one
+    normal_two:
+      name: 普通菜单栏B
+      resources: /admin/two
+      children:
+        admin_two_two:
+          name: 普通菜单栏B_B
+          resources: /admin/two/two
+    
+  
+  

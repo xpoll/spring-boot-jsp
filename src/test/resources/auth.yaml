@@ -39,6 +39,10 @@ tree:
         admin_two_two:
           name: 管理员菜单栏B_B
           resources: /admin/two/two
+          children:
+            admin_two_two_two:
+              name: 管理员菜单栏B_B_B
+              resources: /admin/two/two/two
   normal:
     normal_one:
       name: 普通菜单栏A
@@ -54,12 +58,6 @@ tree:
         admin_two_two:
           name: 普通菜单栏B_B
           resources: /admin/two/two
-      
-perms: #权限
-  admin:
-    - /admin
-  normal:
-    - /normal
     
   
   
