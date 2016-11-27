@@ -12,6 +12,7 @@ import site.blmdz.model.ViewsConstant;
 /**
  * ExceptionResolver.java
  * 异常解析器
+ * @desc 注入Bean即可使用 暂时没有用到,用Advice实现ExceptionHandler
  * @author lm
  * @email <a href="mailto:blmdz521@126.com">lm[blmdz521@126.com]</a>
  * @date 2016年11月18日 下午11:29:11

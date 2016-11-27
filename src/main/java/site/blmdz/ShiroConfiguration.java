@@ -1,6 +1,5 @@
 package site.blmdz;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.shiro.cache.ehcache.EhCacheManager;
@@ -10,6 +9,8 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.google.common.collect.Maps;
+
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.config.CacheConfiguration;
 import site.blmdz.realm.JspRealm;
@@ -18,7 +19,7 @@ import site.blmdz.realm.JspRealm;
 public class ShiroConfiguration {
 
 	
-	private static Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();  
+	private static Map<String, String> filterChainDefinitionMap = Maps.newLinkedHashMap();
 	  
     @Bean
     public JspRealm getShiroRealm() {  

@@ -9,7 +9,10 @@ import org.springframework.context.annotation.Import;
 import site.blmdz.exception.GlobalExceptionHandler;
 
 @SpringBootApplication
-@Import(GlobalExceptionHandler.class)
+@Import({
+	GlobalExceptionHandler.class,//异常
+	ShiroConfiguration.class//权限
+	})
 public class JspApplication extends SpringBootServletInitializer {
 
 	@Override
@@ -21,10 +24,4 @@ public class JspApplication extends SpringBootServletInitializer {
 		SpringApplication application = new SpringApplication(JspApplication.class);
 		application.run(args);
 	}
-
-//	@Bean
-//	public ExceptionHandlerExceptionResolver exceptionResolver() {
-//		ExceptionResolver resolver = new ExceptionResolver();
-//		return resolver;
-//	}
 }
