@@ -3,11 +3,15 @@ package site.blmdz.test.auth;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import org.yaml.snakeyaml.Yaml;
 
+import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.io.Resources;
@@ -16,7 +20,9 @@ public class Test {
 	
 	public static void main(String[] args) throws FileNotFoundException {
 		Auths a = new Yaml().loadAs(new FileInputStream(new File(Resources.getResource("auth.yaml").getFile())), Auths.class);
-		System.out.println(a);
+
+		System.out.println(JSON.toJSONString(a));
+		
 		System.out.println("========权限========");
 		Set<String> auths = Sets.newConcurrentHashSet(a.getAuths().keySet());
 		auths.addAll(a.getRoles().keySet());
@@ -39,51 +45,35 @@ public class Test {
 		});
 		System.out.println(resources);
 		
+		System.out.println("================treeList================");
+
+		List<Node> list = Lists.newArrayList();
+		a.getTree().keySet().forEach(role_key -> {
+			buildList(list, a.getTree().get(role_key));
+		});
+		System.out.println(JSON.toJSONString(list));
+		
 		System.out.println("================tree================");
-		System.out.println(a.getTree().keySet());
-//		Map<String, Node> map = Maps.newHashMap();
-//		a.getTree().keySet().forEach(item -> {
-//			//角色
-//			map.putAll(a.getTree().get(item));
-//			a.getTree().get(item).keySet().forEach(key -> {
-//				build(map, a.getTree().get(item));
-//			});
-//		});
-//		System.out.println(map);
+		Map<String, Node> mapTree = Maps.newHashMap();
+		a.getTree().keySet().forEach(role_key -> {
+			build(mapTree, a.getTree().get(role_key));
+		});
+		System.out.println(JSON.toJSONString(mapTree));
 	}
-//	public static Map<String, Node> build(Map<String, Node> mapnew, Map<String, Node> mapold) {
-//		mapold.keySet().forEach(item -> {
-//			mapnew.putAll(mapold);
-//			if (!mapold.get(item).getChildren().isEmpty())
-//				build(mapnew, mapold);
-//		});
-//		return mapnew;
-//	}
-//	public static Map<String>
+	public static void build(Map<String, Node> mapTree, Map<String, Node> map) {
+		map.keySet().forEach(auth_key -> {
+			Node node = new Yaml().loadAs(JSON.toJSONString(map.get(auth_key)), Node.class);
+			mapTree.put(auth_key, new Node(node.getName(), node.getResources()));
+			if (Objects.nonNull(node.getChildren()))
+				build(mapTree, node.getChildren());
+		});
+	}
+	public static void buildList(List<Node> list, Map<String, Node> map) {
+		map.keySet().forEach(auth_key -> {
+			Node node = new Yaml().loadAs(JSON.toJSONString(map.get(auth_key)), Node.class);
+			list.add(new Node(node.getName(), node.getResources()));
+			if (Objects.nonNull(node.getChildren()))
+				buildList(list, node.getChildren());
+		});
+	}
 }
-//auth Map<String, Map<String, Node>> tree;
-//node
-//
-//private String name;
-//private String resources;
-//private Map<String, Node> children;
-//tree:
-//	  admin:
-//	    admin_one:
-//	      name: 管理员菜单栏A
-//	      resources: /admin/one
-//	      children:
-//	        admin_one_one:
-//	          name: 管理员菜单栏A_A
-//	          resources: /admin/one/one
-//	    admin_two:
-//	      name: 管理员菜单栏B
-//	      resources: /admin/two
-//	      children:
-//	        admin_two_two:
-//	          name: 管理员菜单栏B_B
-//	          resources: /admin/two/two
-//	          children:
-//	            admin_two_two_two:
-//	              name: 管理员菜单栏B_B_B
-//	              resources: /admin/two/two/two
