@@ -36,6 +36,7 @@ tree:
         admin_one_one:
           name: 管理员菜单栏A_A
           resources: /admin/one/one
+          children:
     admin_two:
       name: 管理员菜单栏B
       resources: /admin/two
@@ -44,24 +45,6 @@ tree:
           name: 管理员菜单栏B_A
           resources: /admin/two/one
           children:
-            admin_two_one_one:
-              name: 管理员菜单栏B_A_A
-              resources: /admin/two/one/one
-              children:
-                admin_two_one_one_one:
-                  name: 管理员菜单栏B_A_A_A
-                  resources: /admin/two/one/one/one
-                  children:
-                    admin_two_one_one_one_one:
-                      name: 管理员菜单栏B_A_A_A_A
-                      resources: /admin/two/one/one/one/one
-                      children:
-                        admin_two_one_one_one_one_one:
-                          name: 管理员菜单栏B_A_A_A_A_A
-                          resources: /admin/two/one/one/one/one/one
-            admin_two_one_two:
-              name: 管理员菜单栏B_A_B
-              resources: /admin/two/one/two
   normal:
     normal_one:
       name: 普通菜单栏A
@@ -74,9 +57,9 @@ tree:
       name: 普通菜单栏B
       resources: /admin/two
       children:
-        admin_two_two:
-          name: 普通菜单栏B_B
-          resources: /admin/two/two
+        admin_two_one:
+          name: 普通菜单栏B_A
+          resources: /admin/two/one
     
   
   

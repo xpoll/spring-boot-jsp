@@ -20,6 +20,8 @@ server:
   context-path: /
   port: 8082
   error: redirect:/errors
+  session:
+    timeout: 10
 ###################################################
 ### other set
 ###################################################

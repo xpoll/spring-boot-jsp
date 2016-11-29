@@ -29,7 +29,7 @@ public class UserController {
 			@RequestParam("username") String username,
 			@RequestParam("password") String password,
 			@RequestParam("code") String code) throws Exception {
-		if (Strings.isNullOrEmpty(code)
+		if (Strings.isNullOrEmpty(code.toLowerCase())
 				|| !code.equals(request.getSession().getAttribute("captchaToken")))
 			throw new Exception(ErrorEnums.ERROR_001001.desc());
 		Subject subject=SecurityUtils.getSubject();

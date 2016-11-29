@@ -28,4 +28,8 @@ public class SpecialController {
 	public String successView() {
 		return "success";
 	}
+	@RequestMapping(value = "/tree", method = RequestMethod.GET)
+	public String treeView() {
+		return "tree";
+	}
 }

@@ -13,6 +13,10 @@ public enum ErrorEnums {
 
 	ERROR_001001("001001", "验证码错误"),
 	
+	ERROR_000000("000000", "success"),
+	ERROR_999998("999998", "数据为空"),
+	ERROR_999999("999999", "系统异常")
+	
 	;
 	private String code;
 	private String desc;

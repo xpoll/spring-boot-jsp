@@ -76,7 +76,7 @@ public class two {
         }
         setResponseHeaders(response);
         String token = EncoderHelper.getChallangeAndWriteImage(cs, "png", response.getOutputStream());
-        session.setAttribute("captchaToken", token);
+        session.setAttribute("captchaToken", token.toLowerCase());
         System.out.println("当前的SessionID=" + session.getId() + "，验证码=" + token);
     }
     protected void setResponseHeaders(HttpServletResponse response) {

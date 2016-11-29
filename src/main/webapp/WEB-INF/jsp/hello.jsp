@@ -9,6 +9,10 @@
 </head>
 <body>
 hello  
+
+<a href="/login">登录</a>
+<a href="/api/user/loginout">登出</a>
+
 <br>
 <img alt="image" src="/resources/image/mysql-oracle.png">
 </body>

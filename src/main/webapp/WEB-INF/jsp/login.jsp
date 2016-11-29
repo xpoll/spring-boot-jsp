@@ -4,8 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>login</title>
-<!-- <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script> -->
-<script type="text/javascript" src="//cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript" src="/resources/js/util/jquery-3.1.1.min.js"></script>
 </head>
 <body>
 <h1>登录</h1>
