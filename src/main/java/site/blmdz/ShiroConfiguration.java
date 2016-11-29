@@ -87,8 +87,8 @@ public class ShiroConfiguration {
         shiroFilterFactoryBean.setSuccessUrl("/success");
         shiroFilterFactoryBean.setUnauthorizedUrl("/unauth");
         filterChainDefinitionMap.put("/index", "authc");  
-        filterChainDefinitionMap.put("/admin", "authc, roles[admin]");
-        filterChainDefinitionMap.put("/normal", "authc, roles[normal]");
+        filterChainDefinitionMap.put("/admin/**", "authc, roles[admin]");
+        filterChainDefinitionMap.put("/normal/**", "authc, roles[normal]");
         filterChainDefinitionMap.put("/admins", "authc, roles[admin], perms[admin_permissions]");
         filterChainDefinitionMap.put("/normals", "authc, roles[normal], perms[normal_permissions]");
         filterChainDefinitionMap.put("/**", "anon");

@@ -8,6 +8,7 @@
 </head>
 <body>
 	<h3>hello</h3>
+	<a href="/loginout">登出</a>
 	<shiro:principal />
 	<shiro:hasRole name="admin">
 		我有角色admin
@@ -21,5 +22,6 @@
 	<shiro:hasPermission name="normal_permissions">
 		我有权限normal_permissions
 	</shiro:hasPermission>
+	<jsp:include page="/auth/tree"></jsp:include>
 </body>
 </html>
