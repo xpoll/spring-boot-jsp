@@ -14,11 +14,30 @@
 	<img alt="验证码" src="/pcrimg"> <br>
 	验证码:<input type="text" maxlength="4" name="code"> <br>
 	<button type="submit">登录</button><br>
-	${msg}
 </form>
+<div class="errorMsg" style="color:red;">
+</div>
 <script type="text/javascript">
 	$("img").on('click', function(){
 		$(this)[0].src = "/pcrimg?"+Math.random();
+	});
+	$("form").submit(function(){
+		$.ajax({
+			url: '/api/user/login',
+			type: 'post',
+			data: $("form").serialize(),
+			success: function(data){
+				console.info(data)
+				if (data.success)
+					location = "/index"
+				$(".errorMsg").text(data.message)
+				$("img").click()
+			},
+			error: function(){
+				
+			}
+		})
+		return false;
 	});
 </script>
 </body>

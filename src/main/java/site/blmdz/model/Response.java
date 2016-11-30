@@ -18,16 +18,20 @@ public class Response<T> implements Serializable {
 	@Getter(AccessLevel.NONE)
 	private Boolean success;
 	private T data;
-	
 
-	public static<T> Response<T> build() {
+	public static Response<Boolean> ok() {
+		return build(Boolean.TRUE);
+	}
+	
+	public static Response<Boolean> faild() {
 		return build(null);
 	}
+	
 	public static<T> Response<T> build(T data) {
 		Response<T> response = new Response<T>();
 		if (data == null) {
-			response.code = ErrorEnums.ERROR_999998.code();
-			response.message = ErrorEnums.ERROR_999998.desc();
+			response.code = ErrorEnums.ERROR_999999.code();
+			response.message = ErrorEnums.ERROR_999999.desc();
 			response.success = Boolean.FALSE.booleanValue();
 			return response;
 		}

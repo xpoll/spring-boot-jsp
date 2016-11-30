@@ -1,12 +1,14 @@
 package site.blmdz.controller;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 
 @Controller
-public class SpecialController {
+public class SpecialViewController {
 
 	@RequestMapping(value = {"/hi", "/", "hello"}, method = RequestMethod.GET)
 	public String helloView() {
@@ -31,5 +33,11 @@ public class SpecialController {
 	@RequestMapping(value = "/tree", method = RequestMethod.GET)
 	public String treeView() {
 		return "tree";
+	}
+	@RequestMapping(value = "loginout", method = RequestMethod.GET)
+	public String loginout() {
+		Subject subject=SecurityUtils.getSubject();
+		subject.logout();
+		return "redirect:/";
 	}
 }
