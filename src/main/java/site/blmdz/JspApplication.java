@@ -6,12 +6,15 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Import;
 
-import site.blmdz.exception.GlobalExceptionHandler;
+import site.blmdz.config.GlobalExceptionHandler;
+import site.blmdz.config.MybatisConfiguration;
+import site.blmdz.config.ShiroConfiguration;
 
 @SpringBootApplication
 @Import({
-	GlobalExceptionHandler.class,//异常
-	ShiroConfiguration.class//权限
+	GlobalExceptionHandler.class,
+	ShiroConfiguration.class,
+	MybatisConfiguration.class
 	})
 public class JspApplication extends SpringBootServletInitializer {
 

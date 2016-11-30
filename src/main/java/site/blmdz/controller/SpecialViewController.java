@@ -34,6 +34,10 @@ public class SpecialViewController {
 	public String treeView() {
 		return "tree";
 	}
+	@RequestMapping(value = "/user", method = RequestMethod.GET)
+	public String userView() {
+		return "user";
+	}
 	@RequestMapping(value = "loginout", method = RequestMethod.GET)
 	public String loginout() {
 		Subject subject=SecurityUtils.getSubject();

@@ -11,6 +11,7 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,10 +22,13 @@ import com.google.common.base.Strings;
 
 import site.blmdz.enums.ErrorEnums;
 import site.blmdz.model.Response;
+import site.blmdz.model.User;
+import site.blmdz.service.UserService;
 
 @RestController
 @RequestMapping(value="/api/user")
 public class UserControllerRest {
+	@Autowired UserService userService;
 
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public Callable<Response<?>> login(HttpServletRequest request,
@@ -53,4 +57,11 @@ public class UserControllerRest {
 		}
 		return ()-> Response.ok();
 	}
+	@RequestMapping(value = "add", method = RequestMethod.POST)
+	public Callable<Response<?>> add(HttpServletRequest request,
+			Model model, User user){
+		userService.create(user);
+		return ()-> Response.ok();
+	}
+	
 }

@@ -13,6 +13,8 @@
 	
 	<properties>
 		<shiro.version>1.3.0</shiro.version>
+		<mysql.version>5.1.39</mysql.version>
+		<lombok.version>1.16.10</lombok.version>
 	</properties>
 	
 	<dependencies>
@@ -20,6 +22,10 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
 		</dependency>
 		<!-- spring健康 -->
 		<dependency>
@@ -69,7 +75,7 @@
 		<dependency>
 		    <groupId>org.projectlombok</groupId>
 		    <artifactId>lombok</artifactId>
-		    <version>1.16.10</version>
+		    <version>${lombok.version}</version>
 		</dependency>
 		<!-- JSON -->
         <dependency>
@@ -100,7 +106,18 @@
 		    <artifactId>pagehelper</artifactId>
 		    <version>4.1.6</version>
 		</dependency>
-				
+		<!-- druid -->
+		<dependency>
+		    <groupId>com.alibaba</groupId>
+		    <artifactId>druid</artifactId>
+		    <version>1.0.18</version>
+		</dependency>
+		<!-- junit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 	
 	<build>

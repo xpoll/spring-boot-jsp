@@ -1,4 +1,4 @@
-package site.blmdz;
+package site.blmdz.config;
 
 import java.util.Map;
 
@@ -17,7 +17,6 @@ import site.blmdz.realm.JspRealm;
 
 @Configuration
 public class ShiroConfiguration {
-
 	
 	private static Map<String, String> filterChainDefinitionMap = Maps.newLinkedHashMap();
 	  

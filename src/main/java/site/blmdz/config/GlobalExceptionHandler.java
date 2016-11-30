@@ -1,4 +1,4 @@
-package site.blmdz.exception;
+package site.blmdz.config;
 
 import javax.servlet.http.HttpServletRequest;
 

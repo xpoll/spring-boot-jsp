@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="site.blmdz.dao.TUserMapper">
-	<resultMap id="BaseResultMap" type="site.blmdz.model.TUser">
+<mapper namespace="site.blmdz.dao.UserMapper">
+	<resultMap id="BaseResultMap" type="site.blmdz.model.User">
 		<id column="id" property="id" />
 		<result column="username" property="username" />
 		<result column="password" property="password" />
@@ -13,21 +13,29 @@
 	</resultMap>
   
 	<sql id="cloums_all">
-		id, username, password, roles, name, age, insert_time, update_time
+		id, <include refid="cloums" />
+	</sql>
+	
+	<sql id="cloums">
+		username, password, roles, name, age, insert_time, update_time
 	</sql>
   
+	<sql id="vals_all">
+		#{id}, <include refid="vals" />
+	</sql>
+	
 	<sql id="vals">
-		#{id}, #{username}, #{password}, #{roles}, #{name}, #{age}, #{insertTime}, #{updateTime}
+		#{username}, #{password}, #{roles}, #{name}, #{age}, now(), now()
 	</sql>
 	
 	<sql id="tb">
 		t_user
 	</sql>
 	
-	<insert id="create" parameterType="TUser">
+	<insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="User">
 		insert into
 		<include refid="tb" />
-		(<include refid="cloums_all" />)
+		(<include refid="cloums" />)
 		values
 		(<include refid="vals" />)
 	</insert>
@@ -38,7 +46,7 @@
 		where id = #{id}
 	</delete>
 
-	<update id="update" parameterType="TUser">
+	<update id="update" parameterType="User">
 		update
 	    <include refid="tb"/>
 		<set>
@@ -60,6 +68,12 @@
 	</select>
   
 	<select id="list" resultMap="BaseResultMap">
+		select 
+		<include refid="cloums_all" />
+		from <include refid="tb" />
+	</select>
+	
+	<select id="page" resultMap="BaseResultMap">
 		select 
 		<include refid="cloums_all" />
 		from <include refid="tb" />

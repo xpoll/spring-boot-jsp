@@ -1,22 +1,33 @@
 package site.blmdz.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import site.blmdz.dao.TUserMapper;
-import site.blmdz.model.TUser;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+
+import site.blmdz.dao.UserMapper;
+import site.blmdz.model.User;
 
 @Service
 public class UserService {
 
-	@Autowired TUserMapper tUserMapper;
+	@Autowired UserMapper tUserMapper;
 	
-	public TUser findUser(Long id) {
+	public User findUser(Long id) {
 		return tUserMapper.findById(id);
 	}
-	public List<TUser> findAll() {
-		return tUserMapper.list();
+	public Page<User> findAll() {
+		PageHelper.startPage(1, 1);
+		return tUserMapper.page();
+	}
+	@Transactional(
+			propagation = Propagation.REQUIRED
+			)
+	public boolean create(User user) {
+		int i = tUserMapper.create(user);
+		return i == 1;
 	}
 }
