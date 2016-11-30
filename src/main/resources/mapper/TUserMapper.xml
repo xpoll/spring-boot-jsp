@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.blmdz.dao.TUserMapper">
+	<resultMap id="BaseResultMap" type="site.blmdz.model.TUser">
+		<id column="id" property="id" />
+		<result column="username" property="username" />
+		<result column="password" property="password" />
+		<result column="roles" property="roles" />
+		<result column="name" property="name" />
+		<result column="age" property="age" />
+		<result column="insert_time" property="insertTime" />
+		<result column="update_time" property="updateTime" />
+	</resultMap>
+  
+	<sql id="cloums_all">
+		id, username, password, roles, name, age, insert_time, update_time
+	</sql>
+  
+	<sql id="vals">
+		#{id}, #{username}, #{password}, #{roles}, #{name}, #{age}, #{insertTime}, #{updateTime}
+	</sql>
+	
+	<sql id="tb">
+		t_user
+	</sql>
+	
+	<insert id="create" parameterType="TUser">
+		insert into
+		<include refid="tb" />
+		(<include refid="cloums_all" />)
+		values
+		(<include refid="vals" />)
+	</insert>
+	
+	<delete id="delete" parameterType="long">
+		delete from
+		<include refid="tb" />
+		where id = #{id}
+	</delete>
+
+	<update id="update" parameterType="TUser">
+		update
+	    <include refid="tb"/>
+		<set>
+		  <if test="username != null">username = #{username},</if>
+		  <if test="password != null">password = #{password},</if>
+		  <if test="roles != null">roles = #{roles},</if>
+		  <if test="name != null">name = #{name},</if>
+		  <if test="age != null">age = #{age},</if>
+		  update_time = now()
+		</set>
+		where id = #{id}
+	</update>
+  
+	<select id="findById" parameterType="long" resultMap="BaseResultMap">
+		select 
+		<include refid="cloums_all" />
+		from <include refid="tb" />
+		where id = #{id}
+	</select>
+  
+	<select id="list" resultMap="BaseResultMap">
+		select 
+		<include refid="cloums_all" />
+		from <include refid="tb" />
+	</select>
+</mapper>

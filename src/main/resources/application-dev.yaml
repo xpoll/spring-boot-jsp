@@ -6,6 +6,27 @@ spring:
     view:
       prefix: /WEB-INF/jsp/
       suffix: .jsp
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/test?autoReconnect=true&amp;useUnicode=true&amp;charaterEncoding=utf-8
+    username: root
+    password: root
+    # 使用druid数据源
+#    type: com.alibaba.druid.pool.DruidDataSource
+#    filters: stat
+#    maxActive: 20
+#    initialSize: 1
+#    maxWait: 60000
+#    minIdle: 1
+#    timeBetweenEvictionRunsMillis: 60000
+#    minEvictableIdleTimeMillis: 300000
+#    validationQuery: select 'x'
+#    testWhileIdle: true
+#    testOnBorrow: false
+#    testOnReturn: false
+#    poolPreparedStatements: true
+#    maxOpenPreparedStatements: 20
+  
 ###################################################
 ### log set
 ###################################################
@@ -22,6 +43,13 @@ server:
   error: redirect:/errors
   session:
     timeout: 10
+###################################################
+### mybatis set
+###################################################
+mybatis:
+  mapperLocations: classpath*:mapper/*Mapper.xml
+  typeAliasesPackage: site.blmdz.model
+#  typeHandlersPackage:
 ###################################################
 ### other set
 ###################################################
