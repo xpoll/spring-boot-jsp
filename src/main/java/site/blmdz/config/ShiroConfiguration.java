@@ -1,11 +1,13 @@
 package site.blmdz.config;
 
 import java.util.Map;
+import java.util.Objects;
 
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -82,27 +84,53 @@ public class ShiroConfiguration {
      * Shiro对基于Spring的Web应用提供了完美的支持
      */
     @Bean(name="shiroFilter")
-    public ShiroFilterFactoryBean getShiroFilterFactoryBean() {  
+    public ShiroFilterFactoryBean getShiroFilterFactoryBean(
+    		@Value("${shiro.login}")String login,
+    		@Value("${shiro.login}")String success,
+    		@Value("${shiro.login}")String unauth
+    		) {  
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();  
         shiroFilterFactoryBean.setSecurityManager(getDefaultWebSecurityManager());  
-        shiroFilterFactoryBean.setLoginUrl("/login");
-        shiroFilterFactoryBean.setSuccessUrl("/success");
-        shiroFilterFactoryBean.setUnauthorizedUrl("/unauth");
-        
+        shiroFilterFactoryBean.setLoginUrl(login);
+        shiroFilterFactoryBean.setSuccessUrl(success);
+        shiroFilterFactoryBean.setUnauthorizedUrl(unauth);
+
         //requests
-//        AuthUtils.readAuths().keySet().forEach(auth -> {
-//        	AuthUtils.readAuths().get(auth).getRequests().forEach(url -> {
-//        		filterChainDefinitionMap.put(url, auth);
-//        	});
-//        });
-        
-        filterChainDefinitionMap.put("/index", "authc");
-        filterChainDefinitionMap.put("/index", "authc, roles[admin]");
-        filterChainDefinitionMap.put("/admin/**", "authc, roles[admin]");
-        filterChainDefinitionMap.put("/normal/**", "authc, roles[normal]");
-        filterChainDefinitionMap.put("/admins", "authc, roles[admin], perms[admin_permissions]");
-        filterChainDefinitionMap.put("/normals", "authc, roles[normal], perms[normal_permissions]");
-        filterChainDefinitionMap.put("/**", "anon");
+        AuthUtils.readAuths().keySet().forEach(auth -> {
+        	AuthUtils.readAuths().get(auth).getRequests().forEach(url -> {
+        		String k = filterChainDefinitionMap.get(url);
+        		if (!Objects.isNull(k))
+        			k += "," + auth;
+        		else
+        			k = auth;
+        		filterChainDefinitionMap.put(url, k);
+        	});
+        });
+        //roles requests
+        AuthUtils.readRolesAuths().keySet().forEach(auth -> {
+        	AuthUtils.readRolesAuths().get(auth).getRequests().forEach(url -> {
+        		String k = filterChainDefinitionMap.get(url);
+        		if (!Objects.isNull(k))
+        			k += "," + "roles[" + auth + "]";
+        		else
+        			k = "roles[" + auth + "]";
+        		filterChainDefinitionMap.put(url, k);
+        	});
+        });
+        //roles perms
+        AuthUtils.readRoles().forEach(roles -> {
+        	AuthUtils.readAuthsRolesTreeMap(roles).keySet().forEach(auths -> {
+        		String k = filterChainDefinitionMap.get(AuthUtils.readAuthsRolesTreeMap(roles).get(auths).getResources());
+        		if (!Objects.isNull(k))
+        			k += "," + "roles[" + roles + "]"
+        					+ "," + "perms[" + auths + "]";
+        		else
+        			k = "roles[" + roles + "]" + "," + "perms[" + auths + "]";
+        		filterChainDefinitionMap.put(AuthUtils.readAuthsRolesTreeMap(roles).get(auths).getResources(), k);
+        		
+        	});
+        });
+
         ObjectMapper mapper = new ObjectMapper();
         try {
 			System.out.println(mapper.writeValueAsString(filterChainDefinitionMap));
@@ -110,8 +138,6 @@ public class ShiroConfiguration {
 			e.printStackTrace();
 		}
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);  
-        
-//        Auths a = new Yaml().loadAs(new FileInputStream(new File(Resources.getResource("auth.yaml").getFile())), Auths.class);
         return shiroFilterFactoryBean;  
     } 
 }

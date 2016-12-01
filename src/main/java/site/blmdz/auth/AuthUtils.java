@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 import org.yaml.snakeyaml.Yaml;
 
@@ -36,6 +37,20 @@ public class AuthUtils {
 		return Objects.isNull(auth) ? null : auth.getRoles();
 	}
 	/**
+	 * tree
+	 */
+	public static Map<String, Map<String, Node>> readTrees() {
+		AuthFile auth = readFile();
+		return Objects.isNull(auth) ? null : auth.getTree();
+	}
+	/**
+	 * roles
+	 */
+	public static Set<String> readRoles() {
+		AuthFile auth = readFile();
+		return Objects.isNull(auth) ? null : auth.getTree().keySet();
+	}
+	/**
 	 * auth tree Map
 	 */
 	public static Map<String, Node> readAuthsTreeMap() {
@@ -48,6 +63,21 @@ public class AuthUtils {
 			build(mapTree, auth.getTree().get(role_key));
 		});
 		
+		return mapTree;
+	}
+	/**
+	 * auth tree Map
+	 */
+	public static Map<String, Node> readAuthsRolesTreeMap(String roles) {
+		AuthFile auth = readFile();
+		if (Objects.isNull(auth))
+			return null;
+		
+		Map<String, Node> mapTree = Maps.newHashMap();
+		build(mapTree, auth.getTree().get(roles));
+//		auth.getTree().keySet().forEach(role_key -> {
+//			build(mapTree, auth.getTree().get(role_key));
+//		});
 		return mapTree;
 	}
 	/**

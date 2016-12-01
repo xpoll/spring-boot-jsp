@@ -51,6 +51,10 @@ mybatis:
   typeAliasesPackage: site.blmdz.model
 #  typeHandlersPackage:
 ###################################################
-### other set
+### shiro set
 ###################################################
+shiro:
+  login: login
+  success: success
+  unauth: unauth
 

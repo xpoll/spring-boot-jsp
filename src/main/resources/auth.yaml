@@ -4,9 +4,11 @@ auths:
     requests:
       - /index
       - /test
+      - /abc
   anon: #所有
     requests:
-      - /**
+      - /abc      
+#      - /**
 #通过角色控制权限
 roles:
   admin:
@@ -58,18 +60,18 @@ tree:
   normal:
     normal_one:
       name: 普通菜单栏A
-      resources: /admin/one
+      resources: /normal/one
       children:
         admin_one_one:
           name: 普通菜单栏A_A
-          resources: /admin/one/one
+          resources: /normal/one/one
     normal_two:
       name: 普通菜单栏B
-      resources: /admin/two
+      resources: /normal/two
       children:
         admin_two_two:
           name: 普通菜单栏B_B
-          resources: /admin/two/two
+          resources: /normal/two/two
     
   
   
