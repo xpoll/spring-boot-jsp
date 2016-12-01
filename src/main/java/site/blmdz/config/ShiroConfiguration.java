@@ -9,10 +9,13 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
 
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.config.CacheConfiguration;
+import site.blmdz.auth.AuthUtils;
 import site.blmdz.realm.JspRealm;
 
 @Configuration
@@ -85,12 +88,27 @@ public class ShiroConfiguration {
         shiroFilterFactoryBean.setLoginUrl("/login");
         shiroFilterFactoryBean.setSuccessUrl("/success");
         shiroFilterFactoryBean.setUnauthorizedUrl("/unauth");
-        filterChainDefinitionMap.put("/index", "authc");  
+        
+        //requests
+//        AuthUtils.readAuths().keySet().forEach(auth -> {
+//        	AuthUtils.readAuths().get(auth).getRequests().forEach(url -> {
+//        		filterChainDefinitionMap.put(url, auth);
+//        	});
+//        });
+        
+        filterChainDefinitionMap.put("/index", "authc");
+        filterChainDefinitionMap.put("/index", "authc, roles[admin]");
         filterChainDefinitionMap.put("/admin/**", "authc, roles[admin]");
         filterChainDefinitionMap.put("/normal/**", "authc, roles[normal]");
         filterChainDefinitionMap.put("/admins", "authc, roles[admin], perms[admin_permissions]");
         filterChainDefinitionMap.put("/normals", "authc, roles[normal], perms[normal_permissions]");
         filterChainDefinitionMap.put("/**", "anon");
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+			System.out.println(mapper.writeValueAsString(filterChainDefinitionMap));
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);  
         
 //        Auths a = new Yaml().loadAs(new FileInputStream(new File(Resources.getResource("auth.yaml").getFile())), Auths.class);

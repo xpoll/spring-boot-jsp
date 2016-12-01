@@ -1,5 +1,7 @@
 package site.blmdz.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -19,8 +21,11 @@ public class UserService {
 	public User findUser(Long id) {
 		return tUserMapper.findById(id);
 	}
-	public Page<User> findAll() {
-		PageHelper.startPage(1, 1);
+	public List<User> findAll() {
+		return tUserMapper.list();
+	}
+	public Page<User> findPage(int pageNum, int pageSize) {
+		PageHelper.startPage(pageNum, pageSize, "id");
 		return tUserMapper.page();
 	}
 	@Transactional(

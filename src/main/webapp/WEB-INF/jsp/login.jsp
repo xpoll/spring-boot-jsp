@@ -5,7 +5,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>login</title>
 	<script type="text/javascript" src="/resources/js/util/jquery-3.1.1.min.js"></script>
-	<link rel="icon" type="image/x-icon" href="/resources/image/lm.ico">
+	<link rel="icon" type="image/x-icon" href="/resources/image/lm.ico" media="screen">
 </head>
 <body>
 <h1>登录</h1>
