@@ -16,6 +16,6 @@ public class T {
 		System.out.println(mapper.writeValueAsString(AuthUtils.readTrees()));
 		System.out.println(mapper.writeValueAsString(AuthUtils.readRoles()));
 		System.out.println(mapper.writeValueAsString(AuthUtils.readAuthsRolesTreeMap("admin")));
-		
+		System.out.println(mapper.writeValueAsString(AuthUtils.readRequests()));
 	}
 }

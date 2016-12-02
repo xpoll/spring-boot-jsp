@@ -26,7 +26,7 @@ public class RestSpecialController {
 
 	@RequestMapping(value = "/user" , method = RequestMethod.GET)
 	public Callable<Response<?>> user(@RequestParam("id") Long id) {
-		return () -> Response.build(userService.findUser(id));
+		return () -> Response.build(userService.findUserById(id));
 	}
 
 	@RequestMapping(value = "/userall" , method = RequestMethod.GET)

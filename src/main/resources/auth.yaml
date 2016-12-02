@@ -1,14 +1,24 @@
+########################
+# shiro rules
+# 权限加载顺序
+# 1. default requests
+# 2. roles resources
+# 3. roles requests
+#
+#
+#
+########################
+
 #shiro 默认权限
 auths:
   authc: #登录
     requests:
       - /index
-      - /test
-      - /abc
   anon: #所有
     requests:
-      - /abc      
+      - /404
 #      - /**
+
 #通过角色控制权限
 roles:
   admin:

@@ -38,6 +38,10 @@ public class SpecialViewController {
 	public String userView() {
 		return "user";
 	}
+	@RequestMapping(value = "/404", method = RequestMethod.GET)
+	public String error404View() {
+		return "404";
+	}
 	@RequestMapping(value = "loginout", method = RequestMethod.GET)
 	public String loginout() {
 		Subject subject=SecurityUtils.getSubject();

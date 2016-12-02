@@ -15,11 +15,18 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.config.CacheConfiguration;
 import site.blmdz.auth.AuthUtils;
 import site.blmdz.realm.JspRealm;
 
+/**
+ * shiro 总配置文件
+ * @author yangyz
+ * @date 2016年12月2日下午5:22:10
+ */
+@Slf4j
 @Configuration
 public class ShiroConfiguration {
 	
@@ -64,11 +71,10 @@ public class ShiroConfiguration {
         return new LifecycleBeanPostProcessor();
     }
   
-//    <!-- Shiro默认会使用Servlet容器的Session,可通过sessionMode属性来指定使用Shiro原生Session -->  
-//    <!-- 即<property name="sessionMode" value="native"/>,详细说明见官方文档 -->  
-//    <!-- 这里主要是设置自定义的单Realm应用,若有多个Realm,可使用'realms'属性代替 --> 
     /**
-     * 
+     * Shiro默认会使用Servlet容器的Session,可通过sessionMode属性来指定使用Shiro原生Session
+     * 即<property name="sessionMode" value="native"/>,详细说明见官方文档
+     * 这里主要是设置自定义的单Realm应用,若有多个Realm,可使用'realms'属性代替
      */
     @Bean(name="securityManager")
     public DefaultWebSecurityManager getDefaultWebSecurityManager() {  
@@ -85,12 +91,13 @@ public class ShiroConfiguration {
      */
     @Bean(name="shiroFilter")
     public ShiroFilterFactoryBean getShiroFilterFactoryBean(
-    		@Value("${shiro.login}")String login,
-    		@Value("${shiro.login}")String success,
-    		@Value("${shiro.login}")String unauth
-    		) {  
-        ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();  
-        shiroFilterFactoryBean.setSecurityManager(getDefaultWebSecurityManager());  
+    		@Value("${jsp.shiro.login}")String login,
+    		@Value("${jsp.shiro.login}")String success,
+    		@Value("${jsp.shiro.login}")String unauth
+    		) {
+    	
+        ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
+        shiroFilterFactoryBean.setSecurityManager(getDefaultWebSecurityManager());
         shiroFilterFactoryBean.setLoginUrl(login);
         shiroFilterFactoryBean.setSuccessUrl(success);
         shiroFilterFactoryBean.setUnauthorizedUrl(unauth);
@@ -106,17 +113,7 @@ public class ShiroConfiguration {
         		filterChainDefinitionMap.put(url, k);
         	});
         });
-        //roles requests
-        AuthUtils.readRolesAuths().keySet().forEach(auth -> {
-        	AuthUtils.readRolesAuths().get(auth).getRequests().forEach(url -> {
-        		String k = filterChainDefinitionMap.get(url);
-        		if (!Objects.isNull(k))
-        			k += "," + "roles[" + auth + "]";
-        		else
-        			k = "roles[" + auth + "]";
-        		filterChainDefinitionMap.put(url, k);
-        	});
-        });
+        
         //roles perms
         AuthUtils.readRoles().forEach(roles -> {
         	AuthUtils.readAuthsRolesTreeMap(roles).keySet().forEach(auths -> {
@@ -130,10 +127,22 @@ public class ShiroConfiguration {
         		
         	});
         });
+        
+        //roles requests
+        AuthUtils.readRolesAuths().keySet().forEach(auth -> {
+        	AuthUtils.readRolesAuths().get(auth).getRequests().forEach(url -> {
+        		String k = filterChainDefinitionMap.get(url);
+        		if (!Objects.isNull(k))
+        			k += "," + "roles[" + auth + "]";
+        		else
+        			k = "roles[" + auth + "]";
+        		filterChainDefinitionMap.put(url, k);
+        	});
+        });
 
         ObjectMapper mapper = new ObjectMapper();
         try {
-			System.out.println(mapper.writeValueAsString(filterChainDefinitionMap));
+        	log.debug(mapper.writeValueAsString(filterChainDefinitionMap));
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}

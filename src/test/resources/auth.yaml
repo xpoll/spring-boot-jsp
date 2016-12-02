@@ -1,12 +1,26 @@
+########################
+# shiro rules
+# 权限加载顺序
+# 1. default requests
+# 2. roles resources
+# 3. roles requests
+#
+#
+#
+########################
+
 #shiro 默认权限
 auths:
   authc: #登录
     requests:
       - /index
       - /test
+      - /abc
   anon: #所有
     requests:
-      - /**
+      - /abc      
+#      - /**
+
 #通过角色控制权限
 roles:
   admin:
@@ -36,7 +50,12 @@ tree:
         admin_one_one:
           name: 管理员菜单栏A_A
           resources: /admin/one/one
-          children:
+        admin_one_two:
+          name: 管理员菜单栏A_B
+          resources: /admin/one/two
+        admin_one_three:
+          name: 管理员菜单栏A_C
+          resources: /admin/one/three
     admin_two:
       name: 管理员菜单栏B
       resources: /admin/two
@@ -44,22 +63,27 @@ tree:
         admin_two_one:
           name: 管理员菜单栏B_A
           resources: /admin/two/one
-          children:
+        admin_two_two:
+          name: 管理员菜单栏B_B
+          resources: /admin/two/two
+        admin_two_three:
+          name: 管理员菜单栏B_C
+          resources: /admin/two/three
   normal:
     normal_one:
       name: 普通菜单栏A
-      resources: /admin/one
+      resources: /normal/one
       children:
         admin_one_one:
           name: 普通菜单栏A_A
-          resources: /admin/one/one
+          resources: /normal/one/one
     normal_two:
       name: 普通菜单栏B
-      resources: /admin/two
+      resources: /normal/two
       children:
-        admin_two_one:
-          name: 普通菜单栏B_A
-          resources: /admin/two/one
+        admin_two_two:
+          name: 普通菜单栏B_B
+          resources: /normal/two/two
     
   
   

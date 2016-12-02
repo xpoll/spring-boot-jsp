@@ -1,26 +1,67 @@
 package site.blmdz.realm;
 
+import java.util.Objects;
 import java.util.Set;
 
-import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.DisabledAccountException;
-import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.collect.Sets;
 
-public class JspRealm extends AuthorizingRealm {
+import lombok.extern.slf4j.Slf4j;
+import site.blmdz.enums.ErrorEnums;
+import site.blmdz.enums.UserStatus;
+import site.blmdz.exception.AuthenticationJspException;
+import site.blmdz.model.User;
+import site.blmdz.service.UserService;
 
-	//授权验证
+/**
+ * extends AuthorizingRealm
+ * 登录验证 和 授权验证
+ * @author yangyz
+ * @date 2016年12月2日下午5:09:30
+ */
+@Slf4j
+public class JspRealm extends AuthorizingRealm {
+	
+	@Autowired UserService userService;
+
+	@Override
+	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken paramAuthenticationToken) {
+		
+		String username = (String) paramAuthenticationToken.getPrincipal();
+		log.debug("-----------------------登陆验证:{}", username);
+		
+		User user = userService.findUserByUserName(username);
+		
+		if (Objects.isNull(user))
+			throw new AuthenticationJspException(ErrorEnums.ERROR_000004);
+		if (Objects.equals(UserStatus.NORMAL.value(), user.getStatus()))
+			;
+		else if (Objects.equals(UserStatus.NOT_ACTIVATE.value(), user.getStatus()))
+			throw new AuthenticationJspException(ErrorEnums.ERROR_000008);
+		else if (Objects.equals(UserStatus.LOCKED.value(), user.getStatus()))
+			throw new AuthenticationJspException(ErrorEnums.ERROR_000005);
+		else if (Objects.equals(UserStatus.FROZEN.value(), user.getStatus()))
+			throw new AuthenticationJspException(ErrorEnums.ERROR_000006);
+		else
+			throw new AuthenticationJspException(ErrorEnums.ERROR_000010);
+		
+		return new SimpleAuthenticationInfo(username, user.getPassword(), user.getName());
+	}
+
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection paramPrincipalCollection) {
+		
 		String username = (String) paramPrincipalCollection.getPrimaryPrincipal();
+		log.debug("-----------------------授权验证:{}", username);
+		
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 		Set<String> roles = Sets.newHashSet();
 		Set<String> permissions = Sets.newHashSet();
@@ -33,26 +74,6 @@ public class JspRealm extends AuthorizingRealm {
 		}
 		info.setRoles(roles);
 		info.setStringPermissions(permissions);
-		System.out.println("-----------------------授权验证");
 		return info;
 	}
-
-	//登录验证
-	@Override
-	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken paramAuthenticationToken) throws AuthenticationException {
-		String username = (String) paramAuthenticationToken.getPrincipal();
-		//账号是否存在、账户是否冻结等 抛异常处理
-		if (!"admin".equals(username)
-				&& !"normal".equals(username)
-				&& !"locked".equals(username)
-				&& !"disable".equals(username))
-			return null;
-		if ("locked".equals(username))
-			throw new LockedAccountException();
-		if ("disable".equals(username))
-			throw new DisabledAccountException();
-		System.out.println("-----------------------登陆验证");
-		return new SimpleAuthenticationInfo(username, "111", username);
-	}
-
 }

@@ -20,13 +20,12 @@ import com.github.bingoohuang.patchca.filter.predefined.WobbleRippleFilterFactor
 import com.github.bingoohuang.patchca.utils.encoder.EncoderHelper;
 import com.github.bingoohuang.patchca.word.RandomWordFactory;
 /**
- * patchca生成多彩验证码
- *
- * @author leizhimin 14-5-5 下午11:51
+ * 生成多彩验证码
  */
 @Controller
-public class two {
+public class Captcha {
     private static ConfigurableCaptchaService cs = new ConfigurableCaptchaService();
+    public static final String TOKEN = "captchaToken";
     private static Random random = new Random();
     static {
 //        cs.setColorFactory(new SingleColorFactory(new Color(25, 60, 170)));
@@ -51,7 +50,7 @@ public class two {
         wf.setMinLength(4);
         cs.setWordFactory(wf);
     }
-    @RequestMapping("/pcrimg")
+    @RequestMapping("/img")
     public void crimg(HttpServletRequest request, HttpServletResponse response) throws IOException {
         switch (random.nextInt(5)) {
             case 0:
@@ -76,8 +75,8 @@ public class two {
         }
         setResponseHeaders(response);
         String token = EncoderHelper.getChallangeAndWriteImage(cs, "png", response.getOutputStream());
-        session.setAttribute("captchaToken", token.toLowerCase());
-        System.out.println("当前的SessionID=" + session.getId() + "，验证码=" + token);
+        session.setAttribute(TOKEN, token.toLowerCase());
+        System.out.println("当前的SessionID=" + session.getId() + "，验证码=" + token.toLowerCase());
     }
     protected void setResponseHeaders(HttpServletResponse response) {
         response.setContentType("image/png");

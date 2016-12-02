@@ -12,10 +12,16 @@ import org.yaml.snakeyaml.Yaml;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.common.io.Resources;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 权限读取工具类
+ * @author yangyz
+ * @date 2016年12月2日下午5:16:51
+ */
 @Slf4j
 public class AuthUtils {
 	static final ObjectMapper mapper = new ObjectMapper();
@@ -75,19 +81,35 @@ public class AuthUtils {
 		
 		Map<String, Node> mapTree = Maps.newHashMap();
 		build(mapTree, auth.getTree().get(roles));
-//		auth.getTree().keySet().forEach(role_key -> {
-//			build(mapTree, auth.getTree().get(role_key));
-//		});
 		return mapTree;
 	}
 	/**
-	 * auth tree 
+	 * auth tree
 	 */
 	public static Map<String, Node> readAuthsTree(String role) {
 		AuthFile auth = readFile();
 		if (Objects.isNull(auth))
 			return null;
 		return auth.getTree().get(role);
+	}
+	/**
+	 * requests
+	 */
+	public static Set<String> readRequests() {
+		Set<String> requests = Sets.newHashSet();
+		Map<String, Auth> auth = AuthUtils.readAuths();
+		auth.keySet().forEach(item -> {
+			requests.addAll(auth.get(item).getRequests());
+		});
+		Map<String, Auth> roles_auth = AuthUtils.readRolesAuths();
+		roles_auth.keySet().forEach(item -> {
+			requests.addAll(roles_auth.get(item).getRequests());
+		});
+		Map<String, Node> auth_tree = AuthUtils.readAuthsTreeMap();
+		auth_tree.keySet().forEach(item -> {
+			requests.add(auth_tree.get(item).getResources());
+		});
+		return requests;
 	}
 
 	public final static String FILE = "auth.yaml";

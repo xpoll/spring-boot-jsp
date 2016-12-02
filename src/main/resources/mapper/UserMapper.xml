@@ -6,6 +6,7 @@
 		<result column="username" property="username" />
 		<result column="password" property="password" />
 		<result column="roles" property="roles" />
+		<result column="status" property="status" />
 		<result column="name" property="name" />
 		<result column="age" property="age" />
 		<result column="insert_time" property="insertTime" />
@@ -17,7 +18,7 @@
 	</sql>
 	
 	<sql id="cloums">
-		username, password, roles, name, age, insert_time, update_time
+		username, password, roles, status, name, age, insert_time, update_time
 	</sql>
   
 	<sql id="vals_all">
@@ -25,7 +26,7 @@
 	</sql>
 	
 	<sql id="vals">
-		#{username}, #{password}, #{roles}, #{name}, #{age}, now(), now()
+		#{username}, #{password}, #{roles}, #{status}, #{name}, #{age}, now(), now()
 	</sql>
 	
 	<sql id="tb">
@@ -53,6 +54,7 @@
 		  <if test="username != null">username = #{username},</if>
 		  <if test="password != null">password = #{password},</if>
 		  <if test="roles != null">roles = #{roles},</if>
+		  <if test="status != null">status = #{status},</if>
 		  <if test="name != null">name = #{name},</if>
 		  <if test="age != null">age = #{age},</if>
 		  update_time = now()
@@ -77,5 +79,13 @@
 		select 
 		<include refid="cloums_all" />
 		from <include refid="tb" />
+	</select>
+	
+	<select id="findByUserName" parameterType="String" resultMap="BaseResultMap">
+		select 
+		<include refid="cloums_all" />
+		from <include refid="tb" />
+		where username = #{username}
+		and status != -3
 	</select>
 </mapper>

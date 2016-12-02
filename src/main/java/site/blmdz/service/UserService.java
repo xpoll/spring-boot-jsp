@@ -17,10 +17,14 @@ import site.blmdz.model.User;
 public class UserService {
 
 	@Autowired UserMapper tUserMapper;
-	
-	public User findUser(Long id) {
+
+	public User findUserById(Long id) {
 		return tUserMapper.findById(id);
 	}
+	public User findUserByUserName(String username) {
+		return tUserMapper.findByUserName(username);
+	}
+	
 	public List<User> findAll() {
 		return tUserMapper.list();
 	}

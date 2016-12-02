@@ -5,10 +5,6 @@ import java.util.concurrent.Callable;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.DisabledAccountException;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.LockedAccountException;
-import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,16 +14,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.common.base.Strings;
-
-import site.blmdz.enums.ErrorEnums;
 import site.blmdz.model.Response;
 import site.blmdz.model.User;
 import site.blmdz.service.UserService;
 
+/**
+ * 用户Rest请求
+ * @author yangyz
+ * @date 2016年12月2日下午5:13:01
+ */
 @RestController
 @RequestMapping(value="/api/user")
 public class UserControllerRest {
+	
 	@Autowired UserService userService;
 
 	@RequestMapping(value = "login", method = RequestMethod.POST)
@@ -36,31 +35,23 @@ public class UserControllerRest {
 			@RequestParam("username") String username,
 			@RequestParam("password") String password,
 			@RequestParam("code") String code){
-		if (Strings.isNullOrEmpty(code.toLowerCase())
-				|| !code.equals(request.getSession().getAttribute("captchaToken")))
-			return ()-> Response.build(null).buildEnum(ErrorEnums.ERROR_001001);
+		
+//		if (Strings.isNullOrEmpty(code)
+//				|| !code.toLowerCase().equals(request.getSession().getAttribute(Captcha.TOKEN)))
+//			return ()-> Response.build(null).buildEnum(ErrorEnums.ERROR_001001);
+		
 		Subject subject=SecurityUtils.getSubject();
 		UsernamePasswordToken token=new UsernamePasswordToken(username, password);
-		try{
-			subject.login(token);
-		}catch(UnknownAccountException e){
-			return ()-> Response.build(null).buildEnum(ErrorEnums.ERROR_000004);
-		}catch(LockedAccountException e){
-			return ()-> Response.build(null).buildEnum(ErrorEnums.ERROR_000005);
-		}catch(DisabledAccountException e){
-			return ()-> Response.build(null).buildEnum(ErrorEnums.ERROR_000006);
-		}catch(IncorrectCredentialsException e){
-			return ()-> Response.build(null).buildEnum(ErrorEnums.ERROR_000007);
-		}catch(Exception e){
-			e.printStackTrace();
-			return ()-> Response.faild();
-		}
+		subject.login(token);
+		
 		return ()-> Response.ok();
 	}
 	@RequestMapping(value = "add", method = RequestMethod.POST)
 	public Callable<Response<?>> add(HttpServletRequest request,
 			Model model, User user){
+		
 		userService.create(user);
+		
 		return ()-> Response.ok();
 	}
 	

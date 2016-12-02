@@ -3,21 +3,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>errors</title>
+<title>404</title>
 </head>
 <body>
-	<h1>errors</h1>
-    <div>
-    	${url}
-    </div>
-    <div>
-    	${exception.message}
-    </div>
-    <div>
-    	${info}
-    </div>
-    <div>
-    	${exception}
-    </div>
+<h1>404</h1>
 </body>
 </html>

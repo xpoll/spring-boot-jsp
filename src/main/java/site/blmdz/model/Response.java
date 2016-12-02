@@ -3,24 +3,35 @@ package site.blmdz.model;
 import java.io.Serializable;
 
 import lombok.AccessLevel;
+import lombok.Data;
 import lombok.Getter;
-import lombok.ToString;
+import lombok.Setter;
 import site.blmdz.enums.ErrorEnums;
 
-@ToString
-@Getter
+@Data
 public class Response<T> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
+	@Setter(AccessLevel.NONE)
 	private String code;
+	
+	@Setter(AccessLevel.NONE)
 	private String message;
+	
 	@Getter(AccessLevel.NONE)
+	@Setter(AccessLevel.NONE)
 	private Boolean success;
+	
+	@Setter(AccessLevel.NONE)
 	private T data;
 
 	public static Response<Boolean> ok() {
 		return build(Boolean.TRUE);
+	}
+	
+	public static<T> Response<T> ok(T data) {
+		return build(data);
 	}
 	
 	public static Response<Boolean> faild() {

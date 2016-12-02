@@ -7,14 +7,14 @@ import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Import;
 
 import site.blmdz.config.GlobalExceptionHandler;
-import site.blmdz.config.MybatisConfiguration;
 import site.blmdz.config.ShiroConfiguration;
+import site.blmdz.config.WebConfiguration;
 
 @SpringBootApplication
 @Import({
 	GlobalExceptionHandler.class,
 	ShiroConfiguration.class,
-	MybatisConfiguration.class
+	WebConfiguration.class
 	})
 public class JspApplication extends SpringBootServletInitializer {
 

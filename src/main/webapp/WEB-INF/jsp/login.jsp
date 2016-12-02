@@ -10,9 +10,9 @@
 <body>
 <h1>登录</h1>
 <form id="dataForm">
-	账号:<input type="text" name="username" value="${username}"> <br>
-	密码:<input type="password" name="password" value="${password}"> <br>
-	<img alt="验证码" src="/pcrimg"> <br>
+	账号:<input type="text" name="username" > <br>
+	密码:<input type="password" name="password" > <br>
+	<img alt="验证码" src="/img"> <br>
 	验证码:<input type="text" maxlength="4" name="code"> <br>
 	<button type="submit">登录</button><br>
 </form>
@@ -20,7 +20,7 @@
 </div>
 <script type="text/javascript">
 	$("img").on('click', function(){
-		$(this)[0].src = "/pcrimg?"+Math.random();
+		$(this)[0].src = "/img?"+Math.random();
 	});
 	$("#dataForm").submit(function(){
 		$.ajax({
@@ -29,10 +29,12 @@
 			data: $("#dataForm").serialize(),
 			success: function(data){
 				console.info(data)
-				if (data.success)
+				if (data.success){
 					location = "/index"
-				$(".errorMsg").text(data.message)
-				$("img").click()
+				}else {
+					$(".errorMsg").text(data.message)
+					$("img").click()
+				}
 			},
 			error: function(){
 				

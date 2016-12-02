@@ -54,7 +54,16 @@ mybatis:
 ### shiro set
 ###################################################
 shiro:
-  login: login
-  success: success
-  unauth: unauth
+  login: /login
+  success: /success
+  unauth: /unauth
 
+###################################################
+### other set
+###################################################
+jsp:
+  error: /errors
+  shiro:
+    login: /login
+    success: /success
+    unauth: /unauth
