@@ -6,6 +6,7 @@
 <title>unauth</title>
 </head>
 <body>
-<h1>unauth</h1>
+	<jsp:include page="/include/title" />
+	<h1>unauth</h1>
 </body>
 </html>

@@ -6,6 +6,7 @@
 <title>errors</title>
 </head>
 <body>
+	<jsp:include page="/include/title" />
 	<h1>errors</h1>
     <div>
     	${url}

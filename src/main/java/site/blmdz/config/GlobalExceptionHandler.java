@@ -8,7 +8,6 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.UnauthorizedException;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -22,6 +21,7 @@ import site.blmdz.enums.ErrorEnums;
 import site.blmdz.exception.AuthenticationJspException;
 import site.blmdz.exception.WebJspException;
 import site.blmdz.model.Response;
+import site.blmdz.model.StringConstants;
 
 /**
  * 最上级全局异常封装处理
@@ -32,11 +32,10 @@ import site.blmdz.model.Response;
 @ControllerAdvice
 @Configuration
 public class GlobalExceptionHandler {
-
+	
 	@ExceptionHandler(value = WebJspException.class)
 	@ResponseBody
     public Response<?> webJspExceptionHandler(
-    		HttpServletRequest request,
     		WebJspException e) throws Exception {
 		
 		log.debug("WebJspException");
@@ -47,7 +46,6 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(value = AuthenticationException.class)
 	@ResponseBody
     public Response<?> authenticationJspExceptionHandler(
-    		HttpServletRequest request,
     		AuthenticationException e) throws Exception {
 		
 		log.debug("AuthenticationException");
@@ -60,11 +58,11 @@ public class GlobalExceptionHandler {
         	return Response.faild().buildEnum(ErrorEnums.ERROR_999999);
     }
 
-	@ExceptionHandler(value = Exception.class)
+	@ExceptionHandler(value = {Exception.class, RuntimeException.class, Throwable.class})
+	@ResponseBody
     public ModelAndView defaultExceptionHandler(
     		HttpServletRequest request,
-    		Exception e,
-    		@Value("${jsp.error}")String error) throws Exception {
+    		Exception e) throws Exception {
 		
 		log.debug("Exception");
 		
@@ -88,6 +86,6 @@ public class GlobalExceptionHandler {
         else
         	request.setAttribute("info", ErrorEnums.ERROR_999999.desc());
         
-        return new ModelAndView(error);
+        return new ModelAndView(StringConstants.ERRORS);
     }
 }

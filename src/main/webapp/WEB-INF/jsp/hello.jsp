@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,13 +10,7 @@
 	<link rel="icon" type="image/x-icon" href="/resources/image/lm.ico">
 </head>
 <body>
-hello  
-
-<a href="/login">登录</a>
-<a href="/loginout">登出</a>
-<a href="/index">首页</a>
-
-<br>
-<img alt="image" src="/resources/image/lm.ico">
+	<jsp:include page="/include/title" />
+	<img alt="image" src="/resources/image/lm.ico">
 </body>
 </html>

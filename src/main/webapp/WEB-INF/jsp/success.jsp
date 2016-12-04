@@ -6,7 +6,8 @@
 <title>success</title>
 </head>
 <body>
-<h1>success</h1>
-hello, plause see why ? 
+	<jsp:include page="/include/title" />
+	<h1>success</h1>
+	hello, plause see why ? 
 </body>
 </html>

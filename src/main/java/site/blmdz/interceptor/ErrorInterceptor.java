@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import site.blmdz.model.StringConstants;
+
 /**
  * 处理 FileNotFoundException
  * @author yangyz
@@ -23,7 +25,7 @@ public class ErrorInterceptor implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		if (response.getStatus() == 404)
-			modelAndView.setViewName("/404");
+			modelAndView.setViewName(StringConstants.PAGE_NOT_FOUND);
 	}
 
 	@Override

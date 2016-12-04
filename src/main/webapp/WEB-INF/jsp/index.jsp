@@ -7,9 +7,7 @@
 <title>index</title>
 </head>
 <body>
-	<h3>hello</h3>
-	<shiro:principal />
-	<a href="/loginout">登出</a>
-	<jsp:include page="/auth/tree"></jsp:include>
+	<jsp:include page="/include/title" />
+	<jsp:include page="/auth/tree" />
 </body>
 </html>

@@ -14,6 +14,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.common.base.Charsets;
+import com.google.common.base.Strings;
+import com.google.common.hash.Hashing;
+
+import site.blmdz.captcha.Captcha;
+import site.blmdz.enums.ErrorEnums;
 import site.blmdz.model.Response;
 import site.blmdz.model.User;
 import site.blmdz.service.UserService;
@@ -36,11 +42,13 @@ public class UserControllerRest {
 			@RequestParam("password") String password,
 			@RequestParam("code") String code){
 		
-//		if (Strings.isNullOrEmpty(code)
-//				|| !code.toLowerCase().equals(request.getSession().getAttribute(Captcha.TOKEN)))
-//			return ()-> Response.build(null).buildEnum(ErrorEnums.ERROR_001001);
-		
+		if (Strings.isNullOrEmpty(code)
+				|| !code.toLowerCase().equals(request.getSession().getAttribute(Captcha.TOKEN)))
+			return ()-> Response.build(null).buildEnum(ErrorEnums.ERROR_001001);
+
 		Subject subject = SecurityUtils.getSubject();
+		password = Hashing.md5().hashString(password, Charsets.UTF_8).toString().toUpperCase();
+		
 		UsernamePasswordToken token = new UsernamePasswordToken(username, password);
 		subject.login(token);
 		

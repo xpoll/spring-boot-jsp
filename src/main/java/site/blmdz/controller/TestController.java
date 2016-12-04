@@ -25,7 +25,7 @@ public class TestController {
 	}
 
 	@RequestMapping(value = "error01", method = RequestMethod.GET)
-	public String error01() throws Exception {
+	public String error01() {
 		throw new WebJspException(ErrorEnums.ERROR_888888);
 	}
 	

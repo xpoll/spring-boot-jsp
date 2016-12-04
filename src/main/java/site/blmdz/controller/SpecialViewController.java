@@ -12,35 +12,35 @@ public class SpecialViewController {
 
 	@RequestMapping(value = {"/hi", "/", "hello"}, method = RequestMethod.GET)
 	public String helloView() {
-		return "hello";
+		return "/hello";
 	}
 	@RequestMapping(value="index", method=RequestMethod.GET)
 	public String indexView (){
-		return "index";
+		return "/index";
 	}
 	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public String loginView() {
-		return "login";
-	}
-	@RequestMapping(value = "/unauth", method = RequestMethod.GET)
-	public String unauthView() {
-		return "unauth";
+		return "/login";
 	}
 	@RequestMapping(value = "/success", method = RequestMethod.GET)
 	public String successView() {
-		return "success";
+		return "/success";
 	}
 	@RequestMapping(value = "/tree", method = RequestMethod.GET)
 	public String treeView() {
-		return "tree";
+		return "/tree";
 	}
 	@RequestMapping(value = "/user", method = RequestMethod.GET)
 	public String userView() {
-		return "user";
+		return "/user";
 	}
-	@RequestMapping(value = "/404", method = RequestMethod.GET)
-	public String error404View() {
-		return "404";
+	@RequestMapping(value = "/unauth", method = RequestMethod.GET)
+	public String errorunauthView() {
+		return "/error/unauth";
+	}
+	@RequestMapping(value = "/include/title", method = RequestMethod.GET)
+	public String titleView() {
+		return "/include/title";
 	}
 	@RequestMapping(value = "loginout", method = RequestMethod.GET)
 	public String loginout() {

@@ -7,6 +7,7 @@
 	<script type="text/javascript" src="/resources/js/util/jquery-3.1.1.min.js"></script>
 </head>
 <body>
+	<jsp:include page="/include/title" />
 	<h1>user</h1>
 	<form id="dataForm">
 		用户名:<input type="text" name="username" /><br>

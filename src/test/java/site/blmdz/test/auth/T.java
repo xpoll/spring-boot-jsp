@@ -2,7 +2,6 @@ package site.blmdz.test.auth;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Splitter;
 
 import site.blmdz.auth.AuthUtils;
 
@@ -28,10 +27,5 @@ public class T {
 		System.out.println(mapper.writeValueAsString(AuthUtils.readRequests()));
 		System.out.print("09");
 		System.out.println(mapper.writeValueAsString(AuthUtils.readAuthsRolesTreeMap("admin, normal")));
-		
-		String sequence = " 234 ,   324 ";
-		Splitter.on(",").trimResults().splitToList(sequence).forEach(item -> {
-			System.out.println("A" + item + "A");
-		});
 	}
 }

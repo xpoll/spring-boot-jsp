@@ -1,60 +1,47 @@
-###################################################
+##################
 ### jsp set
-###################################################
+##################
 spring:
   mvc:
     view:
       prefix: /WEB-INF/jsp/
       suffix: .jsp
   datasource:
-    # 使用druid数据源
-    type: com.alibaba.druid.pool.DruidDataSource
+    #type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/test?autoReconnect=true&amp;useUnicode=true&amp;charaterEncoding=utf-8
     username: root
     password: root
-#    filters: stat
-#    maxActive: 20
-#    initialSize: 1
-#    maxWait: 60000
-#    minIdle: 1
-#    timeBetweenEvictionRunsMillis: 60000
-#    minEvictableIdleTimeMillis: 300000
-#    validationQuery: select 'x'
-#    testWhileIdle: true
-#    testOnBorrow: false
-#    testOnReturn: false
-#    poolPreparedStatements: true
-#    maxOpenPreparedStatements: 20
   
-###################################################
+##################
 ### log set
-###################################################
+##################
 logging:
   file: /var/log/spring-boot.log
   level.*: INFO
   level.site.blmdz: DEBUG
-###################################################
+  
+##################
 ### server set
-###################################################
+##################
 server:
   context-path: /
   port: 8082
-  error: redirect:/errors
   session:
     timeout: 1800
-###################################################
+    
+##################
 ### mybatis set
-###################################################
+##################
 mybatis:
   mapperLocations: classpath*:mapper/*Mapper.xml
   typeAliasesPackage: site.blmdz.model
-#  typeHandlersPackage:
-###################################################
-### shiro set
-###################################################
+  
+##################
+### other set
+##################
 jsp:
-  error: /errors
+  debugger: true
   shiro:
     login: /login
     success: /success
