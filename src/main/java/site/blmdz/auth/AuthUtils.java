@@ -7,10 +7,12 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.yaml.snakeyaml.Yaml;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Splitter;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.io.Resources;
@@ -64,7 +66,7 @@ public class AuthUtils {
 		if (Objects.isNull(auth))
 			return null;
 		
-		Map<String, Node> mapTree = Maps.newHashMap();
+		Map<String, Node> mapTree = Maps.newLinkedHashMap();
 		auth.getTree().keySet().forEach(role_key -> {
 			build(mapTree, auth.getTree().get(role_key));
 		});
@@ -72,31 +74,51 @@ public class AuthUtils {
 		return mapTree;
 	}
 	/**
+	 * admin
+	 * normal
+	 * admin, normal
 	 * auth tree Map
 	 */
-	public static Map<String, Node> readAuthsRolesTreeMap(String roles) {
+	public static Map<String, Node> readAuthsRolesTreeMap(String role) {
 		AuthFile auth = readFile();
 		if (Objects.isNull(auth))
 			return null;
 		
-		Map<String, Node> mapTree = Maps.newHashMap();
-		build(mapTree, auth.getTree().get(roles));
+		Map<String, Node> mapTree = Maps.newLinkedHashMap();
+		
+		Set<String> roles = Sets.newLinkedHashSet(Splitter.on(",").trimResults().splitToList(role.toLowerCase()));
+		if (CollectionUtils.isNotEmpty(roles))
+			roles.forEach(role_str -> {
+				build(mapTree, auth.getTree().get(role_str));
+			});
+		
 		return mapTree;
 	}
 	/**
+	 * admin
+	 * normal
+	 * admin, normal
 	 * auth tree
 	 */
 	public static Map<String, Node> readAuthsTree(String role) {
 		AuthFile auth = readFile();
 		if (Objects.isNull(auth))
 			return null;
-		return auth.getTree().get(role);
+		Map<String, Node> mapTree = Maps.newLinkedHashMap();
+		
+		Set<String> roles = Sets.newLinkedHashSet(Splitter.on(",").trimResults().splitToList(role.toLowerCase()));
+		if (CollectionUtils.isNotEmpty(roles))
+			roles.forEach(role_str -> {
+				mapTree.putAll(auth.getTree().get(role_str));
+			});
+		
+		return mapTree;
 	}
 	/**
 	 * requests
 	 */
 	public static Set<String> readRequests() {
-		Set<String> requests = Sets.newHashSet();
+		Set<String> requests = Sets.newLinkedHashSet();
 		Map<String, Auth> auth = AuthUtils.readAuths();
 		auth.keySet().forEach(item -> {
 			requests.addAll(auth.get(item).getRequests());
@@ -126,17 +148,18 @@ public class AuthUtils {
 		}
 	}
 	protected static void build(Map<String, Node> mapTree, Map<String, Node> map) {
-		map.keySet().forEach(auth_key -> {
-			Node node = null;
-			try {
-				node = new Yaml().loadAs(mapper.writeValueAsString(map.get(auth_key)), Node.class);
-			} catch (JsonProcessingException e) {
-				return ;
-			}
-			mapTree.put(auth_key, new Node(node.getName(), node.getResources()));
-			if (Objects.nonNull(node.getChildren()))
-				build(mapTree, node.getChildren());
-		});
+		if (!Objects.isNull(map))
+			map.keySet().forEach(auth_key -> {
+				Node node = null;
+				try {
+					node = new Yaml().loadAs(mapper.writeValueAsString(map.get(auth_key)), Node.class);
+				} catch (JsonProcessingException e) {
+					return ;
+				}
+				mapTree.put(auth_key, new Node(node.getName(), node.getResources()));
+				if (Objects.nonNull(node.getChildren()))
+					build(mapTree, node.getChildren());
+			});
 	}
 	
 	

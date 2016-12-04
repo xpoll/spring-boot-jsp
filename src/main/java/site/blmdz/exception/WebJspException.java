@@ -5,7 +5,7 @@ import site.blmdz.enums.ErrorEnums;
 
 /**
  * extends RuntimeException
- * 用户项目异常返回
+ * 项目异常返回
  * @author yangyz
  * @date 2016年12月2日下午5:07:58
  */

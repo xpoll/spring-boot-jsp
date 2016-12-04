@@ -42,7 +42,7 @@ server:
   port: 8082
   error: redirect:/errors
   session:
-    timeout: 10
+    timeout: 1800
 ###################################################
 ### mybatis set
 ###################################################
@@ -53,17 +53,12 @@ mybatis:
 ###################################################
 ### shiro set
 ###################################################
-shiro:
-  login: /login
-  success: /success
-  unauth: /unauth
-
-###################################################
-### other set
-###################################################
 jsp:
   error: /errors
   shiro:
     login: /login
     success: /success
     unauth: /unauth
+    ehcache:
+      enable: true
+      timeout: 120

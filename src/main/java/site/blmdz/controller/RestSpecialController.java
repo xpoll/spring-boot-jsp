@@ -2,6 +2,8 @@ package site.blmdz.controller;
 
 import java.util.concurrent.Callable;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import site.blmdz.auth.AuthUtils;
 import site.blmdz.model.Response;
+import site.blmdz.model.User;
 import site.blmdz.service.UserService;
 
 
@@ -21,7 +24,12 @@ public class RestSpecialController {
 
 	@RequestMapping(value = "/auth" , method = RequestMethod.GET)
 	public Callable<Response<?>> auth(){
-		return () -> Response.build(AuthUtils.readAuthsTree("admin"));
+		
+		Subject subject = SecurityUtils.getSubject();
+		String username = (String) subject.getPrincipal();
+		User user = userService.findUserByUserName(username);
+		
+		return () -> Response.build(AuthUtils.readAuthsRolesTreeMap(user.getRoles()));
 	}
 
 	@RequestMapping(value = "/user" , method = RequestMethod.GET)

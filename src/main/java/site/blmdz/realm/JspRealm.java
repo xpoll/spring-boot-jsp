@@ -12,9 +12,8 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.google.common.collect.Sets;
-
 import lombok.extern.slf4j.Slf4j;
+import site.blmdz.auth.AuthUtils;
 import site.blmdz.enums.ErrorEnums;
 import site.blmdz.enums.UserStatus;
 import site.blmdz.exception.AuthenticationJspException;
@@ -62,17 +61,12 @@ public class JspRealm extends AuthorizingRealm {
 		String username = (String) paramPrincipalCollection.getPrimaryPrincipal();
 		log.debug("-----------------------授权验证:{}", username);
 		
+		User user = userService.findUserByUserName(username);
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-		Set<String> roles = Sets.newHashSet();
-		Set<String> permissions = Sets.newHashSet();
-		if ("admin".equals(username)) {
-			roles.add("admin");
-			permissions.add("admin_permissions");
-		} else if ("normal".equals(username)) {
-			roles.add("normal");
-			permissions.add("normal_permissions");
-		}
-		info.setRoles(roles);
+		Set<String> permissions = AuthUtils.readAuthsRolesTreeMap(user.getRoles()).keySet();
+		log.debug("{} 's roles:{}", username, user.getRoleSet());
+		log.debug("{} 's permissions:{}", username, permissions);
+		info.setRoles(user.getRoleSet());
 		info.setStringPermissions(permissions);
 		return info;
 	}

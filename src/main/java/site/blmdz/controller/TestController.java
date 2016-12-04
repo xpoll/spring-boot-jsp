@@ -45,4 +45,24 @@ public class TestController {
 		return "success";
 	}
 	
+//	@Autowired
+//	DefaultWebSessionManager sessionManager;
+//	
+//
+//	@RequestMapping(value = "session", method = RequestMethod.GET)
+//	@ResponseBody
+//	public String session() {
+//		Collection<Session> collection = sessionManager.getSessionDAO().getActiveSessions();
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//		System.out.println("现在时间：" + sdf.format(new Date()));
+//		collection.forEach(session -> {
+//			System.out.println("------------------");
+//			System.out.println("session ID ：" + session.getId());
+//			System.out.println("session超时时间：" + session.getTimeout());
+//			System.out.println("session创建时间：" + sdf.format(session.getStartTimestamp()));
+//			System.out.println("session最后请求时间：" + sdf.format(session.getLastAccessTime()));
+//			System.out.println("session用户：" + session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY));
+//		});
+//		return "";
+//	}
 }

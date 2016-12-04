@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+<%-- <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %> --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
@@ -35,29 +35,36 @@
 			width: 100%;
 			height: 100%;
 		}
+		.auth2 span a {
+			padding-left: 10px;
+		}
 	</style>
 </head>
 <body>
 	<h1>tree</h1>
 	<div class="auth">
 		<c:forEach items="${authList}" varStatus="i" var="item1">
-		<shiro:hasPermission name="${item1.key}">
+		<%-- <shiro:hasPermission name="${item1.key}"> --%>
 		<div class="auth1">
 			<span>
-				<a href='${item1.value.resources}' data-type='${item1.key}'>${item1.value.name}</a><br>
+				<a href='${item1.value.resources}' data-type='${item1.key}'>
+					${item1.value.name}
+				</a><br>
 			</span>
 			<c:forEach items="${item1.value.children}" varStatus="j" var="item2">
-			<shiro:hasPermission name="${item2.key}">
+			<%-- <shiro:hasPermission name="${item2.key}"> --%>
 			<div class="auth2">
 				<span>
-					<a href='${item2.value.resources}' data-type='${item2.key}'>${item2.value.name}</a><br>
+					<a href='${item2.value.resources}' data-type='${item2.key}'>
+						${item2.value.name}
+					</a><br>
 				</span>
 			</div>
-			</shiro:hasPermission>
+			<%-- </shiro:hasPermission> --%>
 			</c:forEach>
 		</div>
 		<br>
-		</shiro:hasPermission>
+		<%-- </shiro:hasPermission> --%>
 		</c:forEach>
 	</div>
 	<script type="text/javascript" src="/resources/js/tree.js"></script>

@@ -40,8 +40,8 @@ public class UserControllerRest {
 //				|| !code.toLowerCase().equals(request.getSession().getAttribute(Captcha.TOKEN)))
 //			return ()-> Response.build(null).buildEnum(ErrorEnums.ERROR_001001);
 		
-		Subject subject=SecurityUtils.getSubject();
-		UsernamePasswordToken token=new UsernamePasswordToken(username, password);
+		Subject subject = SecurityUtils.getSubject();
+		UsernamePasswordToken token = new UsernamePasswordToken(username, password);
 		subject.login(token);
 		
 		return ()-> Response.ok();
