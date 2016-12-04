@@ -1,5 +1,5 @@
 # spring-boot-jsp
-spring-boot + shiro + jsp + mysql
+spring-boot + shiro + jsp + mybatis + mysql
 
 jdk 1.8
 
