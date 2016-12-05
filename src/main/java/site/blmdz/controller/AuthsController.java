@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import site.blmdz.auth.AuthUtils;
-import site.blmdz.model.User;
+import site.blmdz.model.JspUser;
 import site.blmdz.service.UserService;
 
 @Controller
@@ -22,8 +22,7 @@ public class AuthsController {
 	public String auth(Model model){
 
 		Subject subject = SecurityUtils.getSubject();
-		String username = (String) subject.getPrincipal();
-		User user = userService.findUserByUserName(username);
+		JspUser user = (JspUser) subject.getPrincipal();
 		
 		model.addAttribute("authList", AuthUtils.readAuthsTree(user.getRoles()));
 		

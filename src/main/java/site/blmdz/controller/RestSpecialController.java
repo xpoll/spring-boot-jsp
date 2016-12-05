@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import site.blmdz.auth.AuthUtils;
+import site.blmdz.model.JspUser;
 import site.blmdz.model.Response;
-import site.blmdz.model.User;
 import site.blmdz.service.UserService;
 
 
@@ -26,8 +26,7 @@ public class RestSpecialController {
 	public Callable<Response<?>> auth(){
 		
 		Subject subject = SecurityUtils.getSubject();
-		String username = (String) subject.getPrincipal();
-		User user = userService.findUserByUserName(username);
+		JspUser user = (JspUser) subject.getPrincipal();
 		
 		return () -> Response.build(AuthUtils.readAuthsRolesTreeMap(user.getRoles()));
 	}

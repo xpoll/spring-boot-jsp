@@ -7,7 +7,7 @@
 	<title>title</title>
 </head>
 <body>
-	你好<shiro:user>,<shiro:principal /> <a href="/loginout">退出</a></shiro:user>
+	你好<shiro:user>,<shiro:principal property="name" /> <a href="/loginout">退出</a></shiro:user>
 	<shiro:guest>
 		<a href="/login">请登录</a>
 	</shiro:guest>
